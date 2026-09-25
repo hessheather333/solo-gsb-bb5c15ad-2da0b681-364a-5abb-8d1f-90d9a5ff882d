@@ -1,0 +1,226 @@
+:root {
+  --bg: #f4f5f7;
+  --panel: #ffffff;
+  --ink: #1f2430;
+  --muted: #6b7280;
+  --line: #e3e6ea;
+  --accent: #4f46e5;
+  --accent-dark: #4338ca;
+  --ok: #15803d;
+  --ok-bg: #dcfce7;
+  --late: #b91c1c;
+  --late-bg: #fee2e2;
+  --cycle: #b45309;
+  --cycle-bg: #fef3c7;
+  --blocked: #6b7280;
+  --blocked-bg: #e5e7eb;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: -apple-system, "PingFang SC", "Microsoft YaHei", "Segoe UI", sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.5;
+}
+
+.app-header {
+  background: linear-gradient(135deg, #312e81, #4f46e5);
+  color: #fff;
+  padding: 20px 28px;
+}
+.app-header h1 { margin: 0; font-size: 22px; }
+.subtitle { margin: 4px 0 0; opacity: 0.85; font-size: 13px; }
+
+main { max-width: 1200px; margin: 0 auto; padding: 20px; }
+
+#editor {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 16px;
+  align-items: start;
+}
+@media (max-width: 900px) {
+  #editor { grid-template-columns: 1fr; }
+}
+
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 16px 18px;
+}
+.panel h2 { margin: 0 0 12px; font-size: 16px; }
+
+/* 表单 */
+#cue-form label {
+  display: block;
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 10px;
+}
+#cue-form input[type="text"],
+#cue-form input[type="number"],
+#cue-form input[type="time"] {
+  display: block;
+  width: 100%;
+  margin-top: 3px;
+  padding: 7px 9px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  font-size: 14px;
+  color: var(--ink);
+}
+#cue-form input:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
+
+#cue-form fieldset {
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  margin: 0 0 12px;
+  padding: 8px 10px;
+}
+#cue-form legend { font-size: 13px; color: var(--muted); padding: 0 4px; }
+
+.pred-list { max-height: 150px; overflow-y: auto; }
+.pred-list label {
+  display: flex !important;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px !important;
+  color: var(--ink) !important;
+  margin-bottom: 4px !important;
+}
+.muted { color: var(--muted); font-size: 13px; margin: 2px 0; }
+
+.form-actions { display: flex; gap: 8px; }
+
+.btn {
+  border: 1px solid var(--line);
+  background: #fff;
+  color: var(--ink);
+  border-radius: 6px;
+  padding: 7px 14px;
+  font-size: 14px;
+  cursor: pointer;
+}
+.btn:hover { border-color: var(--accent); color: var(--accent); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+.btn.primary:hover { background: var(--accent-dark); }
+.btn.link { border: none; background: none; color: var(--accent); padding: 8px 0 0; font-size: 13px; }
+.btn.small { padding: 3px 10px; font-size: 12px; margin-right: 4px; }
+.btn.danger:hover { border-color: var(--late); color: var(--late); }
+
+/* 表格 */
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th, td { padding: 8px 10px; text-align: left; border-bottom: 1px solid var(--line); white-space: nowrap; }
+th { color: var(--muted); font-weight: 600; background: #fafafa; }
+tbody tr:hover { background: #f8f9ff; }
+
+tr.row-late { background: var(--late-bg); }
+tr.row-late:hover { background: #fecaca; }
+tr.row-cycle { background: var(--cycle-bg); }
+tr.row-blocked { background: var(--blocked-bg); color: var(--muted); }
+
+.badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+}
+.badge.ok { background: var(--ok-bg); color: var(--ok); }
+.badge.late { background: var(--late-bg); color: var(--late); }
+.badge.cycle { background: var(--cycle-bg); color: var(--cycle); }
+.badge.blocked { background: var(--blocked-bg); color: var(--blocked); }
+
+/* 环依赖横幅 */
+.banner {
+  max-width: 1200px;
+  margin: 16px auto 0;
+  padding: 12px 16px;
+  border-radius: 8px;
+  background: var(--cycle-bg);
+  border: 1px solid #f59e0b;
+  color: #92400e;
+  font-size: 14px;
+}
+.banner strong { display: block; margin-bottom: 4px; }
+.banner .cycle-path { font-family: ui-monospace, monospace; }
+
+/* 走台单 */
+#runsheet-section {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 16px 18px;
+  margin-top: 16px;
+}
+.runsheet-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.runsheet-header h2 { margin: 0; font-size: 16px; }
+.runsheet-header .btn { margin-left: 8px; }
+
+.unscheduled { margin-top: 10px; font-size: 13px; color: var(--cycle); }
+
+/* 提示条 */
+.toast {
+  position: fixed;
+  top: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #111827;
+  color: #fff;
+  padding: 9px 18px;
+  border-radius: 8px;
+  font-size: 14px;
+  z-index: 100;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+}
+.toast.error { background: var(--late); }
+
+.hidden { display: none !important; }
+
+/* 打印视图（屏幕预览） */
+.print-only { display: none; }
+
+body.print-preview { background: #fff; }
+body.print-preview .no-print { display: none !important; }
+body.print-preview .print-only { display: block; }
+body.print-preview #runsheet-section { border: none; margin-top: 0; }
+body.print-preview main { max-width: none; padding-top: 64px; }
+
+.print-head h1 { font-size: 20px; margin: 0 0 4px; }
+.print-head p { margin: 0 0 12px; color: var(--muted); font-size: 12px; }
+
+.preview-bar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  background: #111827;
+  color: #fff;
+  padding: 10px 20px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  z-index: 90;
+}
+.preview-bar span { margin-right: auto; }
+
+/* 真实打印 */
+@media print {
+  .no-print { display: none !important; }
+  .print-only { display: block; }
+  body { background: #fff; }
+  main { max-width: none; padding: 0; }
+  #runsheet-section { border: none; padding: 0; margin: 0; }
+  table { font-size: 12px; }
+  th { background: #f0f0f0 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  tr.row-late td { background: var(--late-bg) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .badge { border: 1px solid currentColor; }
+}

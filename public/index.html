@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>小剧场走台排程</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="app-header no-print">
+    <h1>🎭 小剧场走台排程</h1>
+    <p class="subtitle">录入提示点，系统按依赖关系自动推算最早开始 / 完成时间，并检测环依赖与超时</p>
+  </header>
+
+  <div id="toast" class="toast hidden no-print"></div>
+  <div id="cycle-banner" class="banner hidden no-print"></div>
+
+  <main>
+    <!-- 编辑区 -->
+    <section id="editor" class="no-print">
+      <div class="panel form-panel">
+        <h2 id="form-title">新增提示点</h2>
+        <form id="cue-form">
+          <input type="hidden" id="cue-id">
+          <label>
+            名称
+            <input type="text" id="f-name" required maxlength="100" placeholder="如：灯光 Cue 1 · 面光">
+          </label>
+          <label>
+            时长（分钟）
+            <input type="number" id="f-duration" min="0" max="1440" step="1" required value="5">
+          </label>
+          <label>
+            最早开始
+            <input type="time" id="f-earliest" required value="18:00">
+          </label>
+          <label>
+            最晚完成（可空）
+            <input type="time" id="f-latest">
+          </label>
+          <fieldset>
+            <legend>前置提示点（须先完成）</legend>
+            <div id="f-predecessors" class="pred-list">
+              <p class="muted">暂无其他提示点</p>
+            </div>
+          </fieldset>
+          <div class="form-actions">
+            <button type="submit" class="btn primary" id="submit-btn">添加</button>
+            <button type="button" class="btn" id="cancel-edit" hidden>取消编辑</button>
+          </div>
+        </form>
+        <button id="load-sample" class="btn link">载入示例数据</button>
+      </div>
+
+      <div class="panel table-panel">
+        <h2>提示点列表</h2>
+        <div class="table-wrap">
+          <table id="cue-table">
+            <thead>
+              <tr>
+                <th>名称</th>
+                <th>时长</th>
+                <th>最早开始</th>
+                <th>前置</th>
+                <th>计算开始</th>
+                <th>计算完成</th>
+                <th>最晚完成</th>
+                <th>状态</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- 走台单 / 打印视图 -->
+    <section id="runsheet-section">
+      <div class="runsheet-header no-print">
+        <h2>走台单（按开始时间排序）</h2>
+        <div>
+          <button id="print-view-btn" class="btn">打印视图</button>
+          <button id="print-btn" class="btn primary">打印</button>
+        </div>
+      </div>
+
+      <div class="print-only print-head">
+        <h1>走台单</h1>
+        <p id="print-meta"></p>
+      </div>
+
+      <div class="table-wrap">
+        <table id="runsheet-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>开始</th>
+              <th>完成</th>
+              <th>时长</th>
+              <th>提示点</th>
+              <th>前置</th>
+              <th>备注</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <div id="unscheduled" class="unscheduled"></div>
+    </section>
+  </main>
+
+  <!-- 打印预览模式顶栏 -->
+  <div id="preview-bar" class="preview-bar hidden no-print">
+    <span>打印视图预览</span>
+    <button id="preview-print" class="btn primary">打印</button>
+    <button id="preview-exit" class="btn">返回编辑</button>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
