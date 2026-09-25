@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>走台排程 · 小剧场提示点调度</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark">🎭</span>
+      <div>
+        <h1>走台排程</h1>
+        <p class="subtitle">小剧场提示点调度 · 时间以开排零点 00:00:00 起算</p>
+      </div>
+    </div>
+    <div class="actions">
+      <a class="btn btn-ghost" href="/print" target="_blank">🖨 走台单 / 打印视图</a>
+      <button class="btn btn-primary" id="btn-new">＋ 新增提示点</button>
+    </div>
+  </header>
+
+  <main class="container">
+    <div id="cycle-banner" class="banner banner-danger hidden"></div>
+
+    <section class="stats" id="stats"></section>
+
+    <section class="card">
+      <div class="card-head">
+        <h2>走台单（按最早开始时间排序）</h2>
+        <span class="hint">修改任一项后自动重新排程</span>
+      </div>
+      <div class="table-wrap">
+        <table class="cue-table">
+          <thead>
+            <tr>
+              <th class="col-seq">#</th>
+              <th>提示点</th>
+              <th class="num">时长</th>
+              <th class="num">最早开始<br><small>（录入）</small></th>
+              <th>前置提示点</th>
+              <th class="num">计算开始</th>
+              <th class="num">计算结束</th>
+              <th class="num">最晚完成</th>
+              <th class="num">浮动</th>
+              <th>状态</th>
+              <th class="col-ops">操作</th>
+            </tr>
+          </thead>
+          <tbody id="cue-tbody"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <!-- 新增 / 编辑弹窗 -->
+  <div class="modal-mask hidden" id="modal-mask">
+    <div class="modal" role="dialog" aria-modal="true">
+      <h2 id="modal-title">新增提示点</h2>
+      <form id="cue-form">
+        <input type="hidden" name="id" />
+
+        <div class="form-row">
+          <label>提示点编号 <small>如 Q6，可留空</small></label>
+          <input type="text" name="ref" placeholder="Q6" maxlength="20" />
+        </div>
+
+        <div class="form-row">
+          <label>名称 <span class="req">*</span></label>
+          <input type="text" name="title" required maxlength="100" placeholder="如：第二场灯光转换" />
+        </div>
+
+        <div class="form-grid">
+          <div class="form-row">
+            <label>时长 <span class="req">*</span></label>
+            <input type="text" name="duration" required placeholder="分钟，如 10 或 1:30" />
+            <small>纯数字按分钟；也可用 <code>MM:SS</code> / <code>H:MM:SS</code></small>
+          </div>
+          <div class="form-row">
+            <label>最早开始时间</label>
+            <input type="text" name="minStart" placeholder="00:00:00" />
+            <small>相对开排零点，如 <code>30:00</code></small>
+          </div>
+          <div class="form-row">
+            <label>最晚完成时间</label>
+            <input type="text" name="maxFinish" placeholder="可留空" />
+            <small>留空表示不限</small>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <label>前置提示点</label>
+          <div class="pre-list" id="pre-list"></div>
+          <small>本提示点须等全部前置完成后方可开始；形成环依赖时会被标出。</small>
+        </div>
+
+        <div class="form-error hidden" id="form-error"></div>
+
+        <div class="modal-ops">
+          <button type="button" class="btn btn-ghost" id="btn-cancel">取消</button>
+          <button type="submit" class="btn btn-primary">保存并重新排程</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="/js/common.js"></script>
+  <script src="/js/app.js"></script>
+</body>
+</html>
